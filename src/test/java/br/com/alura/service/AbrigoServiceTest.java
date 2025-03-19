@@ -5,13 +5,11 @@ import br.com.alura.infra.ClientHttpConfiguration;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.http.HttpResponse;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -23,7 +21,7 @@ class AbrigoServiceTest {
     private Abrigo abrigo = new Abrigo("Teste", "11999999999", "abrigo_alura@gmail.com");
 
     @Test
-    void listarAbrigos() throws IOException, InterruptedException {
+    void deveVerificarQuandoHaAbrigo() throws IOException, InterruptedException {
         abrigo.setId(0L);
         String expectedAbrigosCadastrados = "Abrigos cadastrados:";
         String expectedIdENome = "0 - Teste";
@@ -43,6 +41,25 @@ class AbrigoServiceTest {
 
         Assertions.assertEquals(expectedAbrigosCadastrados, actualAbrigosCadastrados);
         Assertions.assertEquals(expectedIdENome, actualIdENome);
+    }
+
+    @Test
+    void deveVerificarQuandoNaoHaAbrigo() throws IOException, InterruptedException {
+        String expected = "Não há abrigos cadastrados";
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(baos);
+        System.setOut(printStream);
+
+        when(response.body()).thenReturn("[]");
+        when(client.dispararRequisicaoGet(anyString())).thenReturn(response);
+
+        abrigoService.listarAbrigos();
+
+        String[] lines = baos.toString().split(System.lineSeparator());
+        String actual = lines[0];
+
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
