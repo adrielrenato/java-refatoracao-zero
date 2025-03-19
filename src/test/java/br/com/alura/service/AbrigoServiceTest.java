@@ -61,8 +61,4 @@ class AbrigoServiceTest {
 
         Assertions.assertEquals(expected, actual);
     }
-
-    @Test
-    void cadastrarAbrigo() {
-    }
 }
