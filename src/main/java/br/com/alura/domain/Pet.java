@@ -9,7 +9,9 @@ public class Pet {
     private Float peso;
     private String tipo;
 
-    public Pet(String nome, String raca, Integer idade, String cor, Float peso, String Tipo) {
+    public Pet() {}
+
+    public Pet(String nome, String raca, Integer idade, String cor, Float peso, String tipo) {
         this.nome = nome;
         this.raca = raca;
         this.idade = idade;
@@ -36,5 +38,13 @@ public class Pet {
 
     public String getTipo() {
         return tipo;
+    }
+
+    public String getCor() {
+        return cor;
+    }
+
+    public Float getPeso() {
+        return peso;
     }
 }
